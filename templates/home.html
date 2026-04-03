@@ -1,64 +1,211 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Movie Recommendation System</title>
+  <title>CineMatch — Movie Recommendations</title>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css?family=IBM+Plex+Sans&display=swap" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
-
-  <!-- Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-
-  <!-- Bootstrap -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-
-  <!-- Auto Complete -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/css/autoComplete.min.css">
-  <link rel= "stylesheet" type= "text/css" href= "{{ url_for('static',filename='style.css') }}">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+
   <script type="text/javascript">
     var films = {{suggestions|tojson}};
   </script>
 
+  <style>
+    /* Video background */
+    .video-bg {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .video-bg video {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    /* Dark + lavender overlay on top of video */
+    .video-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background: rgba(107, 95, 207, 0.35);
+    }
+
+    /* All content sits above video */
+    .home-wrapper {
+      position: relative;
+      z-index: 2;
+    }
+
+    .logo-text, .logo-dot { filter: none; }
+
+    /* Frosted glass card */
+    .hero-card {
+      background: rgba(255, 255, 255, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1.5px solid rgba(212, 207, 240, 0.7);
+      border-radius: 24px;
+      padding: 48px 44px;
+      max-width: 580px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Poster cards on right */
+    .hero-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex: 1;
+      padding: 40px 0;
+    }
+
+    .poster-stack {
+      position: relative;
+      width: 180px;
+      height: 240px;
+      flex-shrink: 0;
+    }
+
+    .poster-stack .p1 {
+      position: absolute;
+      right: 0;
+      top: 20px;
+      width: 100px;
+      height: 148px;
+      background: rgba(197, 190, 240, 0.7);
+      border-radius: 10px;
+      transform: rotate(6deg);
+      box-shadow: 0 8px 24px rgba(107,95,207,0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .poster-stack .p2 {
+      position: absolute;
+      right: 36px;
+      top: 10px;
+      width: 100px;
+      height: 148px;
+      background: rgba(138, 125, 216, 0.75);
+      border-radius: 10px;
+      transform: rotate(-3deg);
+      box-shadow: 0 8px 24px rgba(107,95,207,0.3);
+      backdrop-filter: blur(4px);
+    }
+
+    .poster-stack .p3 {
+      position: absolute;
+      right: 68px;
+      top: 28px;
+      width: 100px;
+      height: 148px;
+      background: rgba(107, 95, 207, 0.8);
+      border-radius: 10px;
+      transform: rotate(1deg);
+      box-shadow: 0 8px 30px rgba(107,95,207,0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Footer on top of video */
+    .home-footer {
+      position: relative;
+      z-index: 2;
+      color: rgba(255,255,255,0.7);
+    }
+
+    /* Nav on top of video */
+    .home-header .logo-text {
+      color: #ffffff;
+    }
+
+    @media (max-width: 768px) {
+      .poster-stack { display: none; }
+      .hero-inner { flex-direction: column; gap: 20px; }
+      .hero-card { padding: 32px 24px; }
+    }
+  </style>
 </head>
 
-<body id="content" style="font-family: 'Noto Sans JP', sans-serif;">
+<body id="content">
 
-
-    <center><h1 style=""> Movie Recommendation System</h1></center>
-    <div class="form-group shadow-textarea" style="margin-top: 30px;text-align: center;color: white;">
-        <input type="text" name="movie" class="movie form-control" id="autoComplete" autocomplete="off" placeholder="Enter the Movie Name" style="background-color: #ffffff;border-color:#ffffff;width: 60%;color: #181818" required="required" />
-        <br>
-    </div>
-
-    <div class="form-group" style="text-align: center;">
-      <button class="btn btn-primary btn-block movie-button" style="background-color: #e50914;text-align: center;border-color: #e50914;width:120px;" disabled="true" >Enter</button><br><br>
-    </div>
-	</div>
-
-  <div id="loader" class="text-center">
-  </div>
-  
-  <div class="fail">
-    <center><h3>Sorry! The movie you requested is not in our database. 
-    Please check the spelling or try with other movies!</h3></center>
+  <!-- Video Background -->
+  <div class="video-bg">
+    <video autoplay muted loop playsinline>
+      <source src="{{ url_for('static', filename='bg.mp4') }}" type="video/mp4">
+    </video>
   </div>
 
-	<div class="results">
-    <center>
-      <h2 id="name" class="text-uppercase"></h2>
-    </center>
-	</div>
-	
-	<div class="footer" style="">Made with<span style="font-size:150%;color:red;"> &hearts; </span>by Arpita</div>
-	
-	<script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
+  <!-- Lavender overlay -->
+  <div class="video-overlay"></div>
+
+  <!-- Main Content -->
+  <div class="home-wrapper">
+    <div class="home-header">
+      <span class="logo-dot"></span>
+      <span class="logo-text">CineMatch</span>
+    </div>
+
+    <div class="hero-inner">
+      <!-- Search Card -->
+      <div class="hero-card">
+        <h1 class="hero-title">Find your next<br><em>favourite film.</em></h1>
+        <p class="hero-subtitle">Type a movie you love — we'll find what to watch next.</p>
+
+        <div class="search-wrap">
+          <input
+            type="text"
+            name="movie"
+            class="movie search-input"
+            id="autoComplete"
+            autocomplete="off"
+            placeholder="e.g. Inception, The Dark Knight..."
+            required="required"
+          />
+          <button class="search-btn movie-button" disabled="true">
+            <i class="fa fa-arrow-right"></i>
+          </button>
+        </div>
+
+        <div class="fail">
+          <p>Sorry, that movie isn't in our database. Try another title.</p>
+        </div>
+      </div>
+
+      <!-- Poster Stack -->
+      <div class="poster-stack">
+        <div class="p1"></div>
+        <div class="p2"></div>
+        <div class="p3">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+            <path d="M15 10l4.553-2.069A1 1 0 0121 8.868V15.13a1 1 0 01-1.447.899L15 14M3 8a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z" stroke="#fff" stroke-width="1.5"/>
+          </svg>
+        </div>
+      </div>
+    </div>
+
+    <div class="home-footer">
+      Made with <span class="heart">♥</span> by Arpit
+    </div>
+  </div>
+
+  <div id="loader"></div>
+  <div class="results"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@tarekraafat/autocomplete.js@7.2.0/dist/js/autoComplete.min.js"></script>
   <script type="text/javascript" src="{{url_for('static', filename='autocomplete.js')}}"></script>
-
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
   <script type="text/javascript" src="{{url_for('static', filename='recommend.js')}}"></script>
-
 </body>
 </html>
