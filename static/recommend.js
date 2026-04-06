@@ -47,6 +47,13 @@ function load_details(my_api_key,title){
         $("#loader").fadeIn();
         $('.fail').css('display','none');
         $('.results').delay(1000).css('display','block');
+        $('#poster-fan').hide();
+        $('#poster-fan').css('display', 'none');
+        $('.ml-container').css({
+  'min-height': 'unset',
+  'justify-content': 'flex-start',
+  'padding-top': '30px'
+        }); 
         var movie_id = movie.results[0].id;
         var movie_title = movie.results[0].original_title;
         movie_recs(movie_title,movie_id,my_api_key);
@@ -74,6 +81,12 @@ function movie_recs(movie_title,movie_id,my_api_key){
       else {
         $('.fail').css('display','none');
         $('.results').css('display','block');
+        $('#poster-fan').css('display', 'none');
+        $('.ml-container').css({
+  'min-height': 'unset',
+  'justify-content': 'flex-start',
+  'padding-top': '30px'
+        });
         var movie_arr = recs.split('---');
         var arr = [];
         for(const movie in movie_arr){

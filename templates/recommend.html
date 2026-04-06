@@ -21,9 +21,9 @@
 </head>
 
 <body id="content">
-	<div class="results">
+	<div class="results" >
 	    <center>
-	      <h2 id="name" class="text-uppercase">{{title}}</h2>
+	      <h2 id="name" class="text-uppercase" style="color: #dbdbdb;">{{title}}</h2>
 	    </center>
 	</div>
 	<br>
@@ -38,13 +38,13 @@
       </div>
       <div id="details">
         <br/>
-        <h6 id="title" style="color:white;">TITLE: &nbsp;{{title}}</h6>
-        <h6 id="overview" style="color:white;max-width: 85%">OVERVIEW: <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{overview}}</h6>
-        <h6 id="vote_average" style="color:white;">RATING: &nbsp;{{vote_average}}/10 ({{vote_count}} votes)</h6>
-        <h6 id="genres" style="color:white;">GENRE: &nbsp;{{genres}}</h6>
-        <h6 id="date" style="color:white;">RELEASE DATE: &nbsp;{{release_date}}</h6>
-        <h6 id="runtime" style="color:white;">RUNTIME: &nbsp;{{runtime}}</h6>
-        <h6 id="status" style="color:white;">STATUS: &nbsp;{{status}}</h6>
+        <h6 id="title" style="color:#dbdbdb;">TITLE: &nbsp;{{title}}</h6>
+        <h6 id="overview" style="color:#dbdbdb;max-width: 85%">OVERVIEW: <br/><br/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{overview}}</h6>
+        <h6 id="vote_average" style="color:#dbdbdb;">RATING: &nbsp;{{vote_average}}/10 ({{vote_count}} votes)</h6>
+        <h6 id="genres" style="color:#dbdbdb;">GENRE: &nbsp;{{genres}}</h6>
+        <h6 id="date" style="color:#dbdbdb;">RELEASE DATE: &nbsp;{{release_date}}</h6>
+        <h6 id="runtime" style="color:#dbdbdb;">RUNTIME: &nbsp;{{runtime}}</h6>
+        <h6 id="status" style="color:#dbdbdb;">STATUS: &nbsp;{{status}}</h6>
       </div>
     </div>
 </div>
@@ -54,14 +54,14 @@
   <div class="modal fade" id="{{details[0]}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel3" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
       <div class="modal-content">
-        <div class="modal-header" style="background-color: #e50914;color: white;">
+        <div class="modal-header" style="background-color: #9accd6;color: rgb(0, 0, 0);">
           <h5 class="modal-title" id="exampleModalLabel3">{{name}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true" style="color: white">&times;</span>
           </button>
         </div>
 
-        <div class="modal-body">
+        <div class="modal-body" style="background-color:#fff7eb">
           <img class="profile-pic" src="{{details[1]}}" alt="{{name}} - profile" style="width: 250px;height:400px;border-radius: 10px;" />
           <div style="margin-left: 20px">
             <p><strong>Birthday:</strong> {{details[2]}} </p>
@@ -72,7 +72,7 @@
             </p>
           </div>
         </div>
-        <div class="modal-footer">
+        <div class="modal-footer" style="background-color:#fff7eb">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>
@@ -88,18 +88,20 @@
 	</center>
   </div>
 
-  <div class="movie-content">
+ <div class="movie-content" style="display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 0.5rem;">
         {% for name, details in casts.items() if not casts.hidden %}
-          <div class="castcard card" style="width: 15rem;" title="Click to know more about {{name}}" data-toggle="modal" data-target="#{{details[0]}}">
+          <div class="castcard card" style="width: 80%; display: flex; flex-direction: row; margin-bottom: 0.5rem; background-color: #d8d9cf;" title="Click to know more about {{name}}" data-toggle="modal" data-target="#{{details[0]}}">
             <div class="imghvr">
-              <img class="card-img-top cast-img" id="{{details[0]}}" height="360" width="240" alt="{{name}} - profile" src="{{details[2]}}">
-              <figcaption class="fig">
-                <button class="card-btn btn btn-danger"> Know More </button>
-              </figcaption>
+              <img class="card-img-top cast-img" id="{{details[0]}}" height="120" width="120" style="object-fit: cover; min-width: 120px;" alt="{{name}} - profile" src="{{details[2]}}">
             </div>
-            <div class="card-body">
-              <h5 class="card-title">{{name|title}}</h5>
-              <h5 class="card-title"><span style="color:#756969;font-size: 20px;">Character: {{details[1]|title}}</span></h5>
+            <div class="card-body" style="padding: 0.4rem; display: flex; flex-direction: column; justify-content: space-between;">
+              <div>
+                <h5 class="card-title" style="font-size: 1.2rem; margin-bottom: 2px;">{{name|title}}</h5>
+                <h5 class="card-title" style="font-size: 1rem;"><span style="color:#756969;font-size: 1rem;">Character: {{details[1]|title}}</span></h5>
+              </div>
+              <figcaption class="fig">
+                <button class="card-btn btn btn-danger" style="background-color: #32436a; border-color: #32436a; font-size: 0.95rem; padding: 5px 10px;"> Know More </button>
+              </figcaption>
             </div>
           </div>
       {% endfor %}
@@ -108,9 +110,9 @@
 
   <center>
     {% if reviews %}
-    <h2 style="color:white">USER REVIEWS</h2>
+    <h2 style="color:#dbdbdb">USER REVIEWS</h2>
      <div class="col-md-12" style="margin: 0 auto; margin-top:25px;">
-        <table class="table table-bordered" bordercolor="white" style="color:white">
+        <table class="table table-bordered" bordercolor="white" style="color:#444444; background-color: #9accd6;">
             <thead>
                 <tr>
                     <th class="text-center" scope="col" style="width: 75%">Comments</th>
@@ -120,7 +122,7 @@
     
             <tbody>
 		      {% for review, status in reviews.items() if not reviews.hidden %}
-		      <tr style="background-color:#e5091485;">
+		      <tr style="background-color:#9accd6; color:#5b5959;">
               	  <td>{{review}}</td>
 	              <td><center>
 	                  {{status}} : 
@@ -137,31 +139,28 @@
  		 </table>
     </div>
     {% else %}
-    <div style="color:white;">
-      <h1 style="color:white"> This movie is not released yet. Stay tuned! </h1>
+    <div style="color:#dbdbdb;">
+      <h1 style="color:#dbdbdb"> This movie is not released yet. Stay tuned! </h1>
     </div>
     {% endif %}
-  </center>
+  </center><br><br><br>
 
       {% if movie_cards|length > 1 %}
 
 
-      <div class="movie" style="color: #E8E8E8;">
+      <div class="movie" style="color: #dbdbdb;">
       <center><h3>RECOMMENDED MOVIES FOR YOU</h3><h5>(Click any of the movies to get recommendation)</h5></center>
-    </div>
+    </div><br>
 
     <div class="movie-content">
       {% for poster, title in movie_cards.items() if not movie_cards.hidden %}
         <div class="card" style="width: 15rem;" title="{{title}}" onclick="recommendcard(this)">
           <div class="imghvr">
             <img class="card-img-top" height="360" width="240" alt="{{title}} - poster" src={{poster}}>
-            <figcaption class="fig">
-              <button class="card-btn btn btn-danger"> Click Me </button>
-            </figcaption>
+             <figcaption class="fig">
+                <button class="card-btn btn btn-danger" style="background-color: #32436a; border-color: #ffffff; font-size: 1.2rem; padding: 4px 8px; width: 100%;"> Know More </button>
+              </figcaption>
            </div>
-          <div class="card-body">
-            <h5 class="card-title">{{title|capitalize}}</h5>
-          </div>
         </div>
     {% endfor %}
     </div>
